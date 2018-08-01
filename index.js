@@ -22,8 +22,8 @@ const helmet = require('helmet');
 server.use(cors());
 server.use(helmet());
 
-//routes and stuff...
-server.get('/forcast/location/:lat,:lon', (request, response) => {
+//routes and stuff...DARKSKY
+server.get('/forecast/location/:lat,:lon', (request, response) => {
     const { lat, lon } = request.params;
     const requestUrl = urlFormatter.resolve(url, `${lat},${lon}`);
     axios.get(requestUrl)
@@ -36,6 +36,7 @@ server.get('/forcast/location/:lat,:lon', (request, response) => {
             });
         });
 });
+
 
 //kick off this jam
 server.listen(port, () => {
