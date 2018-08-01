@@ -14,6 +14,9 @@ const port = process.env.PORT || 9009;
 const apikey = process.env.API_KEY;
 const url = `https://api.darksky.net/forecast/${apikey}/`;
 
+//define the base url for google geolocation API
+const geoUrl = `https://maps.googleapis.com/maps/`
+
 //import middleware (power ups)
 const cors = require('cors');
 const helmet = require('helmet');
@@ -29,6 +32,21 @@ server.get('/forecast/location/:lat,:lon', (request, response) => {
     axios.get(requestUrl)
         .then((weather) => {
             response.status(200).json(weather.data);
+        })
+        .catch((error) => {
+            response.status(500).json({
+                msg: "don't look now, but there is a Tornado behind you!"
+            });
+        });
+});
+
+//routes for GOOGLE Geolation API
+server.getGeo('/api/geocode/json?address=:city,:ST', (request, response) => {
+    const { city, ST } = request.params;
+    const requestUrl = urlFormatter.resolve(url, `${city},${ST}`);
+    axios.getGeo(requestUrl)
+        .then((data) => {
+            response.status(200).json(data.results);
         })
         .catch((error) => {
             response.status(500).json({
