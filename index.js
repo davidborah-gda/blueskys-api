@@ -41,10 +41,10 @@ server.get('/forecast/location/:lat,:lon', (request, response) => {
 });
 
 //routes for GOOGLE Geolation API
-server.getGeo('/api/geocode/json?address=:city,:ST', (request, response) => {
+server.get('/api/geocode/json/:city,:ST', (request, response) => {
     const { city, ST } = request.params;
     const requestUrl = urlFormatter.resolve(url, `${city},${ST}`);
-    axios.getGeo(requestUrl)
+    axios.get(requestUrl)
         .then((data) => {
             response.status(200).json(data.results);
         })
